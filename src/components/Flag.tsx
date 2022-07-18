@@ -17,9 +17,11 @@ const Wrapper = styled.div`
     .flag-img{
         width: 100%;
         height: 10em;
+        
         img{
             width: 100%;
             height: 100%;
+            object-fit: fill;
         }
     }
     .flag-info{

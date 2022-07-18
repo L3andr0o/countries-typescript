@@ -7,34 +7,19 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import Flag from './components/Flag';
 import axios from 'axios';
 import country from './types/country';
+import Navbar from './components/Navbar';
 
 interface TitleProps {
     readonly opt: string;
   }
 
 const Wrapper = styled.div<TitleProps>`
-    width: 100vw;
+    width: 100%;
     height: fit-content;
     min-height: 100vh;
     position: relative;
     background-color: hsl(207, 26%, 17%);
-    .navbar{
-        display: flex;
-        height: 5em;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 15px;
-        background-color: hsl(209, 23%, 22%);
-        h1{
-            color: #fff;
-            font-size: 14px;
-        }
-        span{
-            color: #fff;
-            font-size: 14px;
-        }
-    }
-
+    
     .content{
         width: 90%;
         margin: 30px auto;
@@ -95,6 +80,11 @@ const Wrapper = styled.div<TitleProps>`
                     padding: 0 15px;
                     align-items: center;
                     background-color: hsl(209, 23%, 22%);
+                    cursor: pointer;
+                    transition: background-color .3s cubic-bezier(0.165, 0.84, 0.44, 1);
+                    &:hover{
+                        background-color: #485c6e;
+                    }
                 }
                 .options{
                     margin-top: 5px;
@@ -109,6 +99,11 @@ const Wrapper = styled.div<TitleProps>`
                     li{
                         padding: 5px 15px;
                         color: #fff;
+                        cursor: pointer;
+                        transition: background-color .3s cubic-bezier(0.165, 0.84, 0.44, 1);
+                        &:hover{
+                        background-color: #485c6e;
+                        }
                     }
                 }
                 .selectActivate{
@@ -179,10 +174,7 @@ function App() {
     <Wrapper opt={selectedOpt}>
         <GlobalStyles />
 
-        <div className='navbar'>
-            <h1>Where in the world?</h1>
-            <span className='theme-switcher'><FaMoon className='icon'/> Dark Mode</span>            
-        </div>
+        <Navbar />
 
         <div className='content'>
             <div className='search'>
