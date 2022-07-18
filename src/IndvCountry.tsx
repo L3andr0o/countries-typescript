@@ -1,12 +1,12 @@
-import axios from "axios";
-import React from "react";
-import { useParams } from "react-router-dom";
-import Flag from "./components/Flag";
-import { useState, useEffect } from "react";
-import country from "./types/country"
-import styled from "styled-components";
-import GlobalStyles from "./assets/GlobalStlyes";
-import Navbar from "./components/Navbar";
+import axios from 'axios';
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import country from './types/country'
+import styled from 'styled-components';
+import GlobalStyles from './assets/GlobalStlyes';
+import Navbar from './components/Navbar';
+import {BsArrowLeft} from 'react-icons/bs';
 
 const Wrapper = styled.div`
     
@@ -15,6 +15,25 @@ const Wrapper = styled.div`
     min-height: 100vh;
     position: relative;
     background-color: hsl(207, 26%, 17%);
+
+    .content{
+        width: 90%;
+        margin: 20px auto;
+
+        .country{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            img{
+                width: 100%;
+                max-width: 580px;
+            }
+            h1{
+                font-size: 22px;
+                color: #fff;
+            }
+        }
+    }
 `
 
 export default function IndvCountry(){
@@ -37,19 +56,42 @@ export default function IndvCountry(){
         <Wrapper>
             <GlobalStyles />
             <Navbar />
-           {
-            countryIndv === null
-            ?
-            <p>loading</p>
-            :
-            <Flag 
-            name={countryIndv.name}
-            population={countryIndv.population}
-            region={countryIndv.region}
-            capital={countryIndv.capital}
-            flags={countryIndv.flags}
-        />
-           }
+            <div className='content'>
+
+                <div className='back-button'>
+                    <BsArrowLeft />
+                    <span>Back</span>
+                </div>
+
+                {
+                countryIndv === null
+                ?
+                <p>loading</p>
+                :
+                
+                <div className='country'>
+                    <img src={countryIndv.flags.svg} alt={countryIndv.name.common} className='flag'/>
+                    <div className='country-info'>
+                        <h1>{countryIndv.name.common}</h1>
+                        <div className='country-detail-info'>
+                            <div>
+                                <h2>Native Name:</h2>
+                                <h2>Population:</h2>
+                                <h2>Region:</h2>
+                                <h2>Sub Region:</h2>
+                                <h2>Capital:</h2>
+                            </div>
+                            <div>
+                                <h2>Top Level Domain:</h2>
+                                <h2>Currencies:</h2>
+                                <h2>Languages:</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                }
+            </div>
         </Wrapper>
     )
 }

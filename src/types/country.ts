@@ -4,10 +4,12 @@ export default interface country{
     region : string,
     capital : string,
     flags : countryFlag
+    
 }
 
 interface countryName{
-    common : string
+    common : string,
+    official : string
 }
 
 interface countryFlag{
