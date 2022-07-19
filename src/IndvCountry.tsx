@@ -40,7 +40,8 @@ export default function IndvCountry(){
 
     const { name } = useParams();
     const [countryIndv, setCountryIndv] = useState<country | null> (null);
-    const [currencies] = useState<any>([])
+    const [currencies, setCurrencies] = useState<Array<string>>([]);
+    const [languages, setLenguages] = useState<Array<string>>([]);
 
     useEffect(()=>{
         getName()
@@ -49,22 +50,24 @@ export default function IndvCountry(){
 
     const getName = async () =>{
         const res = await axios(`https://restcountries.com/v3.1/name/${name}?fullText=true`);
-        const count : country[] = res.data;
-        setCountryIndv(count[0]);
-        // const xd = (Object.values(res.data[0].currencies));
-        // xd.forEach((x : any)=>{
-        //     consosele.log(x.name)
-        // })
-
-        const currenciess = (Object.values(res.data[0].currencies));
-        console.log(currenciess)
-        currenciess.forEach((c : any )=>{
-            console.log(c)
-            
-            currencies.push(c)
+        const country : country[] = res.data;
+        setCountryIndv(country[0]);
+     
+        const rawCurrencies = (Object.values(res.data[0].currencies));
+        const currencies : Array<string> = [];
+        rawCurrencies.forEach((c : any )=>{
+            currencies.push(c.name); 
+            setCurrencies(currencies)
         })
 
         
+        const rawLenguages = (Object.values(res.data[0].languages));
+        const languages : Array<string> = [];
+        rawLenguages.forEach((l : any)=>{
+            languages.push(l);
+            setLenguages(languages)
+        })
+
     }
 
     return(
@@ -90,16 +93,16 @@ export default function IndvCountry(){
                         <h1>{countryIndv.name.common}</h1>
                         <div className='country-detail-info'>
                             <div>
-                                <h2>Native Name:<span>{countryIndv.name.official}</span></h2>
-                                <h2>Population:<span>{countryIndv.population}</span></h2>
-                                <h2>Region:<span>{countryIndv.region}</span></h2>
-                                <h2>Sub Region:<span>{countryIndv.subregion}</span></h2>
-                                <h2>Capital:<span>{countryIndv.capital}</span></h2>
+                                <h2>Native Name: <span>{countryIndv.name.official}</span></h2>
+                                <h2>Population: <span>{countryIndv.population}</span></h2>
+                                <h2>Region: <span>{countryIndv.region}</span></h2>
+                                <h2>Sub Region: <span>{countryIndv.subregion}</span></h2>
+                                <h2>Capital: <span>{countryIndv.capital}</span></h2>
                             </div>
                             <div>
-                                <h2>Top Level Domain:<span>{countryIndv.tld}</span></h2>
-                                <h2>Currencies:<span>{currencies.map((c : any)=>{return ` ${c.name}`})}</span></h2>
-                                <h2>Languages:<span>{}</span></h2>
+                                <h2>Top Level Domain: <span>{countryIndv.tld}</span></h2>
+                                <h2>Currencies:<span>{currencies.map((c : string)=>{return ` ${c}`})}</span></h2>
+                                <h2>Languages:<span>{languages.map((l : string)=>{return ` ${l}`})}</span></h2>
                             </div>
                         </div>
                     </div>
