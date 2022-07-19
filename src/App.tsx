@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import GlobalStyles from './assets/GlobalStlyes';
-import { FaMoon, FaSearch } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import Flag from './components/Flag';
 import axios from 'axios';
@@ -213,6 +213,8 @@ function App() {
                             region={c.region}
                             capital={c.capital}
                             flags={c.flags}
+                            subregion={''}
+                            tld={''}
                         />
                         </div>
                     ))

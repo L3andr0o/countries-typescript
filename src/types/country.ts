@@ -3,7 +3,9 @@ export default interface country{
     population : number,
     region : string,
     capital : string,
-    flags : countryFlag
+    flags : countryFlag,
+    subregion : string,
+    tld : string,
     
 }
 
@@ -15,3 +17,11 @@ interface countryName{
 interface countryFlag{
     svg : string
 }
+
+// interface countryMoney{
+//     EUR : moneyName
+// }
+
+// interface moneyName{
+//     name : string
+// }
