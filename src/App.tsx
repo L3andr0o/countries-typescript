@@ -8,6 +8,7 @@ import Flag from './components/Flag';
 import axios from 'axios';
 import country from './types/country';
 import Navbar from './components/Navbar';
+import { Link} from 'react-router-dom';
 
 interface TitleProps {
     readonly opt: string;
@@ -134,6 +135,9 @@ const Wrapper = styled.div<TitleProps>`
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
+            .link{
+                margin: 20px;
+            }
         }
     }
 
@@ -144,6 +148,7 @@ function App() {
     const [selectedOpt, setSelectedOpt] = useState<string>('All');
     const [selectState, setSelectState] = useState<string>('');
     const [countriesList, setCountriesList] = useState<country[] | null>(null)
+    
 
     useEffect(()=>{
         getFlags()
@@ -206,7 +211,7 @@ function App() {
                     countriesList === null 
                     ? <p>Loading</p>
                     : countriesList.map((c)=>(
-                        <div key={c.name.common}>
+                        <Link to={`/${c.name.common}`}key={c.name.common} className='link'>
                             <Flag 
                             name={c.name}
                             population={c.population}
@@ -216,7 +221,7 @@ function App() {
                             subregion={''}
                             tld={''}
                         />
-                        </div>
+                        </Link>
                     ))
                 }
             </div>      

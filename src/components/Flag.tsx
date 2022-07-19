@@ -10,7 +10,6 @@ const Wrapper = styled.div`
     position: relative;
     border-radius: 5px;
     overflow: hidden;
-    margin: 20px;
     color: #fff;
     background-color: hsl(209, 23%, 22%);
 
@@ -42,6 +41,9 @@ const Wrapper = styled.div`
 `
 
 export default function Flag(props: country){
+
+    const numberFormat = new Intl.NumberFormat('en-US');
+
     return(
         <Wrapper>
             <div className='flag-img'>
@@ -49,7 +51,7 @@ export default function Flag(props: country){
             </div>
             <div className='flag-info'>
                 <h1>{props.name.common}</h1>
-                <h2>Population: <span>{props.population}</span></h2>
+                <h2>Population: <span>{numberFormat.format(props.population)}</span></h2>
                 <h2>Region: <span>{props.region}</span></h2>
                 <h2>Capital: <span>{props.capital}</span></h2>
             </div>
