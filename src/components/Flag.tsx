@@ -12,6 +12,11 @@ const Wrapper = styled.div`
     overflow: hidden;
     color: #fff;
     background-color: hsl(209, 23%, 22%);
+    transition: all .3s cubic-bezier(0.39, 0.575, 0.565, 1);
+    &:hover{
+        background-color: #3e566b;
+        transform: scale(1.1);
+    }
 
     .flag-img{
         width: 100%;
@@ -20,7 +25,7 @@ const Wrapper = styled.div`
         img{
             width: 100%;
             height: 100%;
-            object-fit: fill;
+            object-fit: cover;
         }
     }
     .flag-info{

@@ -138,7 +138,7 @@ export default function IndvCountry(){
     const [languages, setLenguages] = useState<Array<string>>([]);
     const [nativeName, setNativeName] = useState<string>('');
     const numberFormat = new Intl.NumberFormat('en-US');
-
+    
 
     useEffect(()=>{
         getName()

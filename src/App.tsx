@@ -8,10 +8,11 @@ import Flag from './components/Flag';
 import axios from 'axios';
 import country from './types/country';
 import Navbar from './components/Navbar';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import theme from './types/theme';
 
 interface TitleProps {
-    readonly opt: string;
+    readonly opt: string
   }
 
 const Wrapper = styled.div<TitleProps>`
@@ -19,7 +20,7 @@ const Wrapper = styled.div<TitleProps>`
     height: fit-content;
     min-height: 100vh;
     position: relative;
-    background-color: hsl(207, 26%, 17%);
+    background-color: ${({theme})=> theme.bg1};
     
     .content{
         width: 90%;
@@ -35,6 +36,10 @@ const Wrapper = styled.div<TitleProps>`
             flex-direction: column;
             position: relative;
             
+            
+            @media (min-width:768px){
+                flex-direction: row;
+            }
             
             #search-input{
                 position: relative;
@@ -72,6 +77,9 @@ const Wrapper = styled.div<TitleProps>`
                 width: 60%;
                 margin-top: 15px;
                 max-width: 170px;
+                @media (min-width:768px){
+                    margin: 0;
+                }
                 .selected-option{
                     height: 3em;
                     color: #fff;
@@ -84,7 +92,7 @@ const Wrapper = styled.div<TitleProps>`
                     cursor: pointer;
                     transition: background-color .3s cubic-bezier(0.165, 0.84, 0.44, 1);
                     &:hover{
-                        background-color: #485c6e;
+                        background-color: #4f6b83;
                     }
                 }
                 .options{
@@ -103,7 +111,7 @@ const Wrapper = styled.div<TitleProps>`
                         cursor: pointer;
                         transition: background-color .3s cubic-bezier(0.165, 0.84, 0.44, 1);
                         &:hover{
-                        background-color: #485c6e;
+                        background-color: #4f6b83;
                         }
                     }
                 }
@@ -135,6 +143,7 @@ const Wrapper = styled.div<TitleProps>`
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
+            
             .link{
                 margin: 20px;
             }
@@ -143,13 +152,43 @@ const Wrapper = styled.div<TitleProps>`
 
 `
 
+
+
+
+
 function App() {
+
+    
 
     const [selectedOpt, setSelectedOpt] = useState<string>('All');
     const [reqEndPoint, setReqEndPoint] = useState<string>('all');
     const [selectState, setSelectState] = useState<string>('');
-    const [countriesList, setCountriesList] = useState<country[] | null>(null)
-    
+    const [countriesList, setCountriesList] = useState<country[] | null>(null);
+    const [chosenTheme, setChosenTheme] = useState<boolean>(true);
+
+    const lightTheme : theme = {
+        'color' : '#000',
+        'bg1' : '#ccc',
+        'bg2' : '#fff',
+        'hover' : '#ddd'
+    }    
+    const darkTheme : theme = {
+        'color' : '#fff',
+        'bg1' : 'hsl(207, 26%, 17%)',
+        'bg2' : 'hsl(209, 23%, 22%)',
+        'hover' : '#4f6b83'
+    }
+
+    const [theme, setTheme] = useState<theme>(darkTheme);
+
+    const changeTheme = ()  =>{
+        if(chosenTheme){ 
+            setTheme(lightTheme)
+            setChosenTheme(false)
+            return
+        }setTheme(darkTheme)
+        setChosenTheme(true)
+    }
 
 
     useEffect(()=>{
@@ -180,10 +219,13 @@ function App() {
     
 
   return (
-    <Wrapper opt={selectedOpt}>
+
+    
+    <Wrapper opt={selectedOpt} theme={theme}>
+        
         <GlobalStyles />
 
-        <Navbar />
+        <Navbar func={()=> changeTheme()} />
 
         <div className='content'>
             <div className='search'>
@@ -231,7 +273,10 @@ function App() {
                 }
             </div>      
         </div>
+        
     </Wrapper>
+    
+    
   );
 }
 

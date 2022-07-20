@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FaMoon } from "react-icons/fa";
 
+
 const Nav = styled.div`
     display: flex;
     height: 5em;
@@ -22,11 +23,14 @@ const Nav = styled.div`
         }
 `
 
-export default function Navbar(){
+export default function Navbar(props : any){
+
+
+
     return(
         <Nav>
             <h1>Where in the world?</h1>
-            <span className='theme-switcher'><FaMoon className='icon'/> Dark Mode</span>  
+            <span className='theme-switcher' onClick={()=> props.func()}><FaMoon className='icon'/> Dark Mode</span>  
         </Nav>
     )
 }
