@@ -48,21 +48,21 @@ const Wrapper = styled.div<TitleProps>`
                 height: 3.6em;
                 border: none;
                 outline: none;
-                color: #fff;
+                color: ${({theme})=> theme.color};
                 padding-right: 15px;
                 padding-left: 50px;
-                background-color: hsl(209, 23%, 22%);
+                background-color: ${({theme})=> theme.bg2};
                 border-radius: 5px;
                 transition: background-color .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                 &::placeholder{
-                    color: #fff;
+                    color: ${({theme})=> theme.color};
                     font-size: 14px;
                     position: absolute;
                     top: calc(50% - 7px);
                     left: 50px;
                 }
                 &:focus{
-                    background-color: #485c6e;
+                    background-color: ${({theme})=> theme.hover};
                 }
             }
             label{
@@ -70,7 +70,7 @@ const Wrapper = styled.div<TitleProps>`
                 left: 15px;
                 z-index: 10;
                 top: 16px;
-                color: #fff;
+                color: ${({theme})=> theme.color};
             }
 
             .select{
@@ -82,22 +82,22 @@ const Wrapper = styled.div<TitleProps>`
                 }
                 .selected-option{
                     height: 3em;
-                    color: #fff;
+                    color: ${({theme})=> theme.color};
                     display: flex;
                     justify-content: space-between;
                     border-radius: 5px;
                     padding: 0 15px;
                     align-items: center;
-                    background-color: hsl(209, 23%, 22%);
+                    background-color: ${({theme})=> theme.bg2};
                     cursor: pointer;
                     transition: background-color .3s cubic-bezier(0.165, 0.84, 0.44, 1);
                     &:hover{
-                        background-color: #4f6b83;
+                        background-color: ${({theme})=> theme.hover};
                     }
                 }
                 .options{
                     margin-top: 5px;
-                    background-color: hsl(209, 23%, 22%);
+                    background-color: ${({theme})=> theme.bg2};
                     padding: 10px 0;
                     border-radius: 5px;
                     width: 60%;
@@ -107,11 +107,11 @@ const Wrapper = styled.div<TitleProps>`
                     display: none;
                     li{
                         padding: 5px 15px;
-                        color: #fff;
+                        color: ${({theme})=> theme.color};
                         cursor: pointer;
                         transition: background-color .3s cubic-bezier(0.165, 0.84, 0.44, 1);
                         &:hover{
-                        background-color: #4f6b83;
+                        background-color: ${({theme})=> theme.hover};
                         }
                     }
                 }
@@ -132,7 +132,7 @@ const Wrapper = styled.div<TitleProps>`
             }
 
             .${(props)=> props.opt}{
-                background-color: #4f6b83;
+                background-color: ${({theme})=> theme.hover};
             }
         }
         .flags-container{
@@ -155,10 +155,7 @@ const Wrapper = styled.div<TitleProps>`
 
 
 
-
 function App() {
-
-    
 
     const [selectedOpt, setSelectedOpt] = useState<string>('All');
     const [reqEndPoint, setReqEndPoint] = useState<string>('all');
@@ -168,7 +165,7 @@ function App() {
 
     const lightTheme : theme = {
         'color' : '#000',
-        'bg1' : '#ccc',
+        'bg1' : '#f0e8e8',
         'bg2' : '#fff',
         'hover' : '#ddd'
     }    
@@ -216,16 +213,14 @@ function App() {
         setCountriesList(list)  
 
     }
-    
 
   return (
 
-    
-    <Wrapper opt={selectedOpt} theme={theme}>
-        
-        <GlobalStyles />
+   
 
-        <Navbar func={()=> changeTheme()} />
+    <Wrapper opt={selectedOpt} theme={theme}>
+        <GlobalStyles />
+        <Navbar func={()=> changeTheme()} theme={theme}/>
 
         <div className='content'>
             <div className='search'>
@@ -267,6 +262,7 @@ function App() {
                             subregion={''}
                             tld={''}
                             borders={['']}
+                            theme={theme}
                         />
                         </Link>
                     ))

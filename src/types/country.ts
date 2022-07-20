@@ -1,3 +1,5 @@
+import theme from "./theme"
+
 export default interface country{
     name : countryName,
     population : number,
@@ -6,7 +8,8 @@ export default interface country{
     flags : countryFlag,
     subregion : string,
     tld : string,
-    borders : Array<string> | null
+    borders : Array<string> | null,
+    theme : theme
 }
 
 interface countryName{
@@ -17,6 +20,7 @@ interface countryName{
 interface countryFlag{
     svg : string
 }
+
 
 // interface countryMoney{
 //     EUR : moneyName

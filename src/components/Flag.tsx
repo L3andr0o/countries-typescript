@@ -10,11 +10,11 @@ const Wrapper = styled.div`
     position: relative;
     border-radius: 5px;
     overflow: hidden;
-    color: #fff;
-    background-color: hsl(209, 23%, 22%);
+    color: ${({theme})=> theme.color};
+    background-color: ${({theme})=> theme.bg2};
     transition: all .3s cubic-bezier(0.39, 0.575, 0.565, 1);
     &:hover{
-        background-color: #3e566b;
+        background-color: ${({theme})=> theme.hover};
         transform: scale(1.1);
     }
 
@@ -50,7 +50,7 @@ export default function Flag(props: country){
     const numberFormat = new Intl.NumberFormat('en-US');
 
     return(
-        <Wrapper>
+        <Wrapper theme={props.theme}>
             <div className='flag-img'>
                 <img src={props.flags.svg} alt={props.name.common} />
             </div>
