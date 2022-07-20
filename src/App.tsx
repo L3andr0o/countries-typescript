@@ -146,13 +146,16 @@ const Wrapper = styled.div<TitleProps>`
 function App() {
 
     const [selectedOpt, setSelectedOpt] = useState<string>('All');
+    const [reqEndPoint, setReqEndPoint] = useState<string>('all');
     const [selectState, setSelectState] = useState<string>('');
     const [countriesList, setCountriesList] = useState<country[] | null>(null)
     
 
+
     useEffect(()=>{
         getFlags()
-    },[])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[selectedOpt])
 
     const defineSelectState = () : void =>{
         if(selectState === 'selectActivate'){
@@ -161,13 +164,14 @@ function App() {
         }setSelectState('selectActivate')
     }
 
-    const selectOption = (opt : string) : void =>{
+    const selectOption = (opt : string, ep : string) : void =>{
         setSelectedOpt(opt);
         setSelectState('');
+        setReqEndPoint(ep)
     }
 
     const getFlags = async ()=>{
-        const res = await axios('https://restcountries.com/v3.1/all');
+        const res = await axios(`https://restcountries.com/v3.1/${reqEndPoint}`);
         const list : country[] = res.data;
 
         setCountriesList(list)  
@@ -195,12 +199,12 @@ function App() {
                     </div>
 
                     <ul className={`options ${selectState}`}>
-                        <li onClick={()=> selectOption('All')} className='All' >All</li>
-                        <li onClick={()=> selectOption('Africa')} className='Africa' >Africa</li>
-                        <li onClick={()=> selectOption('America')} className='America' >America</li>
-                        <li onClick={()=> selectOption('Asia')} className='Asia' >Asia</li>
-                        <li onClick={()=> selectOption('Europe')} className='Europe' >Europe</li>
-                        <li onClick={()=> selectOption('Oceania')} className='Oceania' >Oceania</li>
+                        <li onClick={()=> selectOption('All','all')} className='All' >All</li>
+                        <li onClick={()=> selectOption('Africa','region/africa')} className='Africa' >Africa</li>
+                        <li onClick={()=> selectOption('America','region/america')} className='America' >America</li>
+                        <li onClick={()=> selectOption('Asia','region/asia')} className='Asia' >Asia</li>
+                        <li onClick={()=> selectOption('Europe','region/europe')} className='Europe' >Europe</li>
+                        <li onClick={()=> selectOption('Oceania','region/oceania')} className='Oceania' >Oceania</li>
                     </ul>
                 </div>
                 
@@ -220,6 +224,7 @@ function App() {
                             flags={c.flags}
                             subregion={''}
                             tld={''}
+                            borders={['']}
                         />
                         </Link>
                     ))

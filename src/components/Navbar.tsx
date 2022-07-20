@@ -9,6 +9,9 @@ const Nav = styled.div`
     justify-content: space-between;
     padding: 0 15px;
     background-color: hsl(209, 23%, 22%);
+    @media (min-width:768px) {
+        padding: 0 35px;
+    }
         h1{
             color: #fff;
             font-size: 14px;

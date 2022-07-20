@@ -6,7 +6,7 @@ export default interface country{
     flags : countryFlag,
     subregion : string,
     tld : string,
-    
+    borders : Array<string> | null
 }
 
 interface countryName{

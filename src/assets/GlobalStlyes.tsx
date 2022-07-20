@@ -7,6 +7,7 @@ const GlobalStyles = createGlobalStyle`
         box-sizing: border-box;
         font-family: 'Nunito Sans';
         list-style: none;
+        text-decoration: none;
     }
     body{
         height: 100vh;

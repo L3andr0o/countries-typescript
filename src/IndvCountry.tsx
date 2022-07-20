@@ -8,6 +8,8 @@ import GlobalStyles from './assets/GlobalStlyes';
 import Navbar from './components/Navbar';
 import {BsArrowLeft} from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+import nativeName from './types/nativeName';
+// import nativeName from './types/nativeName';
 
 const Wrapper = styled.div`
     
@@ -20,7 +22,7 @@ const Wrapper = styled.div`
     .content{
         width: 90%;
         margin: 20px auto;
-
+        max-width: 875px;
         .back-button{
             width: 6em;
             background-color: hsl(209, 23%, 22%);
@@ -31,21 +33,39 @@ const Wrapper = styled.div`
             padding: 0 15px;
             justify-content: space-evenly;
             box-shadow: 0px 2px 10px #110f0f;
+            transition: background-color .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            &:hover{
+                background-color: #394d5f;
+            }
         }
 
         .country{
             width: 100%;
             display: flex;
             flex-direction: column;
+            @media (min-width: 768px){
+                flex-direction: row;
+                align-items: center;
+                margin-top: 50px;
+                justify-content: space-between;
+            }
             img{
                 width: 100%;
                 max-width: 325px;
                 height: 12em;
                 margin: 20px auto;
+                @media (min-width: 768px){
+                margin: 0;
+                height: 20em;
+            }
             }
             .country-info{
                 display: flex;
                 flex-direction: column;
+                @media (min-width:768px){
+                    justify-content: space-between;
+                    width: 50%;
+                }
                 h1{
                 font-size: 20px;
                 color: #fff;
@@ -58,6 +78,9 @@ const Wrapper = styled.div`
                     width: fit-content;
                     align-items: center;
                     justify-content: space-between;
+                    @media (min-width:768px){
+                        margin-top: 20px;
+                    }
                     h3{
                         font-size: 16px;
                         font-weight: 600;
@@ -65,8 +88,8 @@ const Wrapper = styled.div`
                     div{
                         display: flex;
                         max-width: 355px;
-                        justify-content: space-between;
-                        ;
+                        justify-content: left;
+                        flex-wrap: wrap;
                         span{
                             width: fit-content;
                             min-width: 4em;
@@ -74,7 +97,7 @@ const Wrapper = styled.div`
                             text-align: center;
                             font-size: 14px;
                             box-shadow: 1px 1px 5px #111;
-                            padding: 5px 0;
+                            padding: 5px;
                         }
                     }
                 }
@@ -82,6 +105,9 @@ const Wrapper = styled.div`
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between;
+                    @media (min-width: 768px){
+                    flex-direction: row;
+                    }
                     div{
                         margin-top: 10px;
                         h2{
@@ -89,6 +115,10 @@ const Wrapper = styled.div`
                             color: #fff;
                             font-weight: 600;
                             line-height: 25px;
+                            text-overflow: clip;
+                            @media (min-width: 768px){
+                                font-size: 12px;
+                            }
                             span{
                                 font-weight: 300;
                             }
@@ -106,7 +136,9 @@ export default function IndvCountry(){
     const [countryIndv, setCountryIndv] = useState<country | null> (null);
     const [currencies, setCurrencies] = useState<Array<string>>([]);
     const [languages, setLenguages] = useState<Array<string>>([]);
+    const [nativeName, setNativeName] = useState<string>('');
     const numberFormat = new Intl.NumberFormat('en-US');
+
 
     useEffect(()=>{
         getName()
@@ -117,7 +149,12 @@ export default function IndvCountry(){
         const res = await axios(`https://restcountries.com/v3.1/name/${name}?fullText=true`);
         const country : country[] = res.data;
         setCountryIndv(country[0]);
-        console.log(res.data[0])
+        
+        const nativeName : nativeName[] = (Object.values(res.data[0].name.nativeName));
+        setNativeName(Object.values(nativeName[0])[1]);
+        
+
+
         
         const rawCurrencies = (Object.values(res.data[0].currencies));
         const currencies : Array<string> = [];
@@ -133,7 +170,6 @@ export default function IndvCountry(){
             languages.push(l);
             setLenguages(languages)
         })
-
     }
 
     return(
@@ -161,7 +197,7 @@ export default function IndvCountry(){
                         <h1>{countryIndv.name.common}</h1>
                         <div className='country-detail-info'>
                             <div>
-                                <h2>Native Name: <span>{countryIndv.name.official}</span></h2>
+                                <h2>Native Name: <span>{nativeName}</span></h2>
                                 <h2>Population: <span>{numberFormat.format(countryIndv.population)}</span></h2>
                                 <h2>Region: <span>{countryIndv.region}</span></h2>
                                 <h2>Sub Region: <span>{countryIndv.subregion}</span></h2>
@@ -169,16 +205,23 @@ export default function IndvCountry(){
                             </div>
                             <div>
                                 <h2>Top Level Domain: <span>{countryIndv.tld}</span></h2>
-                                <h2>Currencies:<span>{currencies.map((c : string)=>{return ` ${c}`})}</span></h2>
-                                <h2>Languages:<span>{languages.map((l : string)=>{return ` ${l}`})}</span></h2>
+                                <h2>
+                                    Currencies:<span>{currencies.map((c : string)=>{return `, ${c}`})}</span>
+                                </h2>
+                                <h2 className='languages'>
+                                    Languages:<span>{languages.map((l : string)=>{return `, ${l}`})}</span>
+                                </h2>
                             </div>
                         </div>
                         <div className='border-countries'>
                             <h3>Borders Countries:</h3>
                             <div>
-                                <span>FRA</span>
-                                <span>VE</span>
-                                <span>GER</span>
+                                {
+                                 (!countryIndv.borders) ?
+                                 <span> There's no borders</span>
+                                 :
+                                 countryIndv.borders.map((b)=> {return <span key={b}>{b}</span>})
+                                }
                             </div>
                         </div>
                     </div>
