@@ -17,7 +17,7 @@ const Wrapper = styled.div`
     height: fit-content;
     min-height: 100vh;
     position: relative;
-    background-color: hsl(207, 26%, 17%);
+    background-color: ${({theme})=> theme.bg1};
 
     .content{
         width: 90%;
@@ -25,8 +25,8 @@ const Wrapper = styled.div`
         max-width: 875px;
         .back-button{
             width: 6em;
-            background-color: hsl(209, 23%, 22%);
-            color: #fff;
+            background-color: ${({theme})=> theme.bg2};
+            color:  ${({theme})=> theme.color};
             height: 2em;
             display: flex;
             align-items: center;
@@ -35,7 +35,7 @@ const Wrapper = styled.div`
             box-shadow: 0px 2px 10px #110f0f;
             transition: background-color .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             &:hover{
-                background-color: #394d5f;
+                background-color:  ${({theme})=> theme.hover};
             }
         }
 
@@ -68,12 +68,12 @@ const Wrapper = styled.div`
                 }
                 h1{
                 font-size: 20px;
-                color: #fff;
+                color:  ${({theme})=> theme.color};
                 }
                 .border-countries{
                     display: flex;
                     flex-wrap: wrap;
-                    color: #fff;
+                    color:  ${({theme})=> theme.color};
                     margin-top: 10px;
                     width: fit-content;
                     align-items: center;
@@ -112,7 +112,7 @@ const Wrapper = styled.div`
                         margin-top: 10px;
                         h2{
                             font-size: 14px;
-                            color: #fff;
+                            color:  ${({theme})=> theme.color};
                             font-weight: 600;
                             line-height: 25px;
                             text-overflow: clip;
@@ -130,7 +130,7 @@ const Wrapper = styled.div`
     }
 `
 
-export default function IndvCountry(){
+export default function IndvCountry(props : any){
 
     const { name } = useParams();
     const [countryIndv, setCountryIndv] = useState<country | null> (null);
@@ -153,9 +153,6 @@ export default function IndvCountry(){
         const nativeName : nativeName[] = (Object.values(res.data[0].name.nativeName));
         setNativeName(Object.values(nativeName[0])[1]);
         
-
-
-        
         const rawCurrencies = (Object.values(res.data[0].currencies));
         const currencies : Array<string> = [];
         rawCurrencies.forEach((c : any )=>{
@@ -172,10 +169,12 @@ export default function IndvCountry(){
         })
     }
 
+    
+
     return(
-        <Wrapper>
+        <Wrapper theme={props.theme}>
             <GlobalStyles />
-            <Navbar />
+            <Navbar func={props.changeTheme} theme={props.theme}/>
             <div className='content'>
 
                 <Link to='/'>
