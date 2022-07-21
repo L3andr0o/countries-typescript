@@ -155,7 +155,7 @@ const Wrapper = styled.div<TitleProps>`
 
 
 
-function App() {
+function App(props : any) {
 
     const [selectedOpt, setSelectedOpt] = useState<string>('All');
     const [reqEndPoint, setReqEndPoint] = useState<string>('all');
@@ -176,7 +176,7 @@ function App() {
         'hover' : '#4f6b83'
     }
 
-    
+    console.log(props.msg)
 
     const changeTheme = () : void =>{
         if(chosenTheme){ 
@@ -190,22 +190,19 @@ function App() {
 
     }
 
-    const savedTheme = () : any => {
+    const savedTheme = () : theme => {
        
         if(localStorage.getItem('theme')){
             if(localStorage.getItem('theme') === 'darkTheme'){
                 return darkTheme
             }return lightTheme
         }else{
-            const xd = window.matchMedia('(prefers-color-scheme: dark)');
-            if(xd.matches){
+            const pcTheme = window.matchMedia('(prefers-color-scheme: dark)');
+            if(pcTheme.matches){
             return darkTheme
-            }   return lightTheme
+            }return lightTheme
         }
-
-        
     }
-    console.log(savedTheme())
     const [theme, setTheme] = useState<theme>(savedTheme());
 
     useEffect(()=>{
