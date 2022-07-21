@@ -176,17 +176,37 @@ function App() {
         'hover' : '#4f6b83'
     }
 
-    const [theme, setTheme] = useState<theme>(darkTheme);
+    
 
-    const changeTheme = ()  =>{
+    const changeTheme = () : void =>{
         if(chosenTheme){ 
-            setTheme(lightTheme)
-            setChosenTheme(false)
+            setTheme(lightTheme);
+            setChosenTheme(false);
+            localStorage.setItem('theme','lightTheme')
             return
-        }setTheme(darkTheme)
-        setChosenTheme(true)
+        }setTheme(darkTheme);
+        setChosenTheme(true);
+        localStorage.setItem('theme','darkTheme')
+
     }
 
+    const savedTheme = () : any => {
+       
+        if(localStorage.getItem('theme')){
+            if(localStorage.getItem('theme') === 'darkTheme'){
+                return darkTheme
+            }return lightTheme
+        }else{
+            const xd = window.matchMedia('(prefers-color-scheme: dark)');
+            if(xd.matches){
+            return darkTheme
+            }   return lightTheme
+        }
+
+        
+    }
+    console.log(savedTheme())
+    const [theme, setTheme] = useState<theme>(savedTheme());
 
     useEffect(()=>{
         getFlags()

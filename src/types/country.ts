@@ -22,10 +22,3 @@ interface countryFlag{
 }
 
 
-// interface countryMoney{
-//     EUR : moneyName
-// }
-
-// interface moneyName{
-//     name : string
-// }

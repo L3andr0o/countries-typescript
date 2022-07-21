@@ -21,6 +21,7 @@ const Nav = styled.div`
         span{
             color: ${({theme})=> theme.color};
             font-size: 14px;
+            cursor: pointer;
         }
 `
 
