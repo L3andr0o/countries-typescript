@@ -9,6 +9,7 @@ import Navbar from './components/Navbar';
 import {BsArrowLeft} from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import nativeName from './types/nativeName';
+import Spinner from './components/Spinner';
 // import nativeName from './types/nativeName';
 
 const Wrapper = styled.div`
@@ -146,6 +147,7 @@ export default function IndvCountry(props : any){
     },[])
 
     const getName = async () =>{
+        try{
         const res = await axios(`https://restcountries.com/v3.1/name/${name}?fullText=true`);
         const country : country[] = res.data;
         setCountryIndv(country[0]);
@@ -166,7 +168,10 @@ export default function IndvCountry(props : any){
         rawLenguages.forEach((l : any)=>{
             languages.push(l);
             setLenguages(languages)
-        })
+        })}catch(e){
+            console.log(e);
+            setCountryIndv(null)
+        }
     }
 
     
@@ -187,7 +192,7 @@ export default function IndvCountry(props : any){
                 {
                 countryIndv === null
                 ?
-                <p>loading</p>
+                <Spinner />
                 :
                 
                 <div className='country'>

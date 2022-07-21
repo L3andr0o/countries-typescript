@@ -9,7 +9,8 @@ import axios from 'axios';
 import country from './types/country';
 import Navbar from './components/Navbar';
 import { Link } from 'react-router-dom';
-// import theme from './types/theme';
+import Spinner from './components/Spinner';
+
 
 interface TitleProps {
     readonly opt: string
@@ -53,7 +54,7 @@ const Wrapper = styled.div<TitleProps>`
                 padding-left: 50px;
                 background-color: ${({theme})=> theme.bg2};
                 border-radius: 5px;
-                transition: background-color .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                transition: background-color .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                 &::placeholder{
                     color: ${({theme})=> theme.color};
                     font-size: 14px;
@@ -143,7 +144,6 @@ const Wrapper = styled.div<TitleProps>`
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
-            
             .link{
                 margin: 20px;
             }
@@ -160,18 +160,24 @@ function Home(props : any) {
     const [selectedOpt, setSelectedOpt] = useState<string>('All');
     const [reqEndPoint, setReqEndPoint] = useState<string>('all');
     const [selectState, setSelectState] = useState<string>('');
-    const [countriesList, setCountriesList] = useState<country[] | null>(null);
+    const [countriesList, setCountriesList] = useState<country[] | null >(null);
+    const [searchValue, setSearchValue] = useState<string>('');
+    
 
     useEffect(()=>{
+        (searchValue?.length > 0)?
+        getFlagsBySearch()
+        :
         getFlags()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[selectedOpt])
+    },[selectedOpt,searchValue])
 
     const defineSelectState = () : void =>{
         if(selectState === 'selectActivate'){
             setSelectState('');
             return
         }setSelectState('selectActivate')
+
     }
 
     const selectOption = (opt : string, ep : string) : void =>{
@@ -180,17 +186,29 @@ function Home(props : any) {
         setReqEndPoint(ep)
     }
 
-    const getFlags = async ()=>{
-        const res = await axios(`https://restcountries.com/v3.1/${reqEndPoint}`);
-        const list : country[] = res.data;
-
-        setCountriesList(list)  
-
+    const activateSearchBar = (e : any) =>{
+        setSearchValue(e.target.value);  
     }
 
-  return (
+    const getFlags = async ()=>{ 
+        const res = await axios(`https://restcountries.com/v3.1/${reqEndPoint}`);  
+        const list : country[] = res.data;
+        setCountriesList(list);
+    }
 
-   
+    const getFlagsBySearch = async ()=>{
+        try{
+            const res = await axios(`https://restcountries.com/v3.1/name/${searchValue}`);  
+            const list : country[] = res.data;
+            setCountriesList(list);
+        }catch(e){
+            console.log(e)
+            setCountriesList(null)
+        }
+    }
+    
+
+  return (
 
     <Wrapper opt={selectedOpt} theme={props.theme}>
         <GlobalStyles />
@@ -200,7 +218,8 @@ function Home(props : any) {
             <div className='search'>
 
                 <label htmlFor='search-input'><FaSearch /></label>
-                <input type="text" placeholder='Search for a country...' id='search-input' autoComplete='off'/>
+                <input type="text" placeholder='Search for a country...' id='search-input' autoComplete='off'
+                onChange={e=> activateSearchBar(e)}/>
 
                 <div className='select'>
 
@@ -223,8 +242,11 @@ function Home(props : any) {
 
             <div className='flags-container'>
                 {
+
+                
+
                     countriesList === null 
-                    ? <p>Loading</p>
+                    ? <Spinner />
                     : countriesList.map((c)=>(
                         <Link to={`/${c.name.common}`} key={c.name.common} className='link'>
                             <Flag 
