@@ -190,7 +190,8 @@ function Home(props : any) {
         setSearchValue(e.target.value);  
     }
 
-    const getFlags = async ()=>{ 
+    const getFlags = async ()=>{
+        setCountriesList(null) 
         const res = await axios(`https://restcountries.com/v3.1/${reqEndPoint}`);  
         const list : country[] = res.data;
         setCountriesList(list);
@@ -198,6 +199,7 @@ function Home(props : any) {
 
     const getFlagsBySearch = async ()=>{
         try{
+            setCountriesList(null)
             const res = await axios(`https://restcountries.com/v3.1/name/${searchValue}`);  
             const list : country[] = res.data;
             setCountriesList(list);
